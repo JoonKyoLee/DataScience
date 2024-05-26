@@ -16,5 +16,10 @@ df = df[df['지점명'].isin(['서울', '인천', '수원'])]
 # 새로운 열 '행정구역' 추가
 df['지점명'] = df['지점명'].replace('수원', '경기')
 
+# NaN 데이터를 X로 처리 -> 관측이 되지 않았기 때문
+df['황사관측(O/X)'].fillna('X', inplace=True)
+
+print(df)
+
 # csv 파일로 저장
 df.to_csv('modified_data/수정된_황사_정보.csv', index=False)
