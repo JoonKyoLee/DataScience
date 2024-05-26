@@ -13,5 +13,8 @@ df.drop(columns=['지점번호'], inplace=True)
 # 3. 서울, 인천, 또는 수원 파일에 있는 다른 지역만 남기고 삭제
 df = df[df['지점명'].isin(['서울', '인천', '수원'])]
 
+# 새로운 열 '행정구역' 추가
+df['지점명'] = df['지점명'].replace('수원', '경기')
+
 # csv 파일로 저장
 df.to_csv('modified_data/수정된_황사_정보.csv', index=False)

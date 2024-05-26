@@ -24,5 +24,3 @@ data = data.drop(columns=['발령시간', '해제시간'])
 # 변경된 데이터 저장
 output_path = '/modified_data/2023_서울_오존_초미세먼지_미세먼지_주의보_경보_일자_modified.csv'
 data.to_csv(output_path, index=False, encoding='utf-8-sig')
-
-print(f"파일이 저장되었습니다: {output_path}")
