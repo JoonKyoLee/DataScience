@@ -59,5 +59,3 @@ station_administrative_division = station_info[['역사명', '행정구역']]
 
 # csv 파일로 저장
 station_administrative_division.to_excel('modified_data/추출된_역정보.xlsx', index=False)
-
-print(station_info['행정구역'].unique())
