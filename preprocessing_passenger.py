@@ -18,5 +18,7 @@ modified_passenger = merged_passenger.drop(columns=['등록일자', '역사명']
 # 행정구역이 null인 데이터 삭제
 modified_passenger = modified_passenger.dropna(subset=['행정구역'])
 
+print(modified_passenger)
+
 # 엑셀 파일로 저장
 modified_passenger.to_excel('modified_data/수정된_승하차_인원정보.xlsx', index=False)

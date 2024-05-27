@@ -2,6 +2,8 @@ import pandas as pd
 
 subway_passenger = pd.read_excel('modified_data/수정된_승하차_인원정보.xlsx')
 
+print(subway_passenger)
+
 
 # 미세먼지 데이터 병합
 fine_dust = pd.read_csv('modified_data/수정된_미세먼지_정보.csv')
@@ -75,6 +77,9 @@ merged_df.rename(columns={'적설(cm)': '적설'}, inplace=True)
 merged_df.rename(columns={'폭염여부(O/X)': '폭염여부'}, inplace=True)
 merged_df.rename(columns={'한파특보(O/X)': '한파특보'}, inplace=True)
 merged_df.rename(columns={'황사관측(O/X)': '황사관측'}, inplace=True)
+
+# "사용일자"와 "역명" 컬럼을 기준으로 중복 제거
+unique_df = merged_df.drop_duplicates(subset=['사용일자', '역명'])
 
 print(merged_df)
 
