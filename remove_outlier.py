@@ -54,7 +54,7 @@ def compare_outliers(data_list_before, data_list_after, column_list):
 if __name__ == "__main__":
     # 데이터 불러오기
     file_path = "/merged_data/"  # 파일 경로 설정
-    file_names = ["modified_merged_data.csv"]  # 파일 이름 설정
+    file_names = ["modified_merged_data_for_remove_outlier.csv"]  # 파일 이름 설정
     data_list = [pd.read_csv(file_path + file_name) for file_name in file_names]
 
     # 승차 총 승객수와 하차 총 승객수를 합한 총 승객수 열 생성
