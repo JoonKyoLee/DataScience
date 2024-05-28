@@ -8,7 +8,6 @@ print(data)
 
 data_for_remove_outlier = data
 
-# .loc를 사용하여 명시적으로 값을 설정
 data_for_remove_outlier['총승객수'] = data_for_remove_outlier['승차총승객수'] + data_for_remove_outlier['하차총승객수']
 
 data_for_remove_outlier = data_for_remove_outlier[['사용일자', '총승객수']]
