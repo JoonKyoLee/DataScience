@@ -1,21 +1,16 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler
+from sklearn.preprocessing import StandardScaler, RobustScaler, MinMaxScaler, OneHotEncoder
 from tabulate import tabulate
 import seaborn as sns
 
 data = pd.read_csv('merged_data/data_after_encoding.csv')
+#data = pd.read_csv('merged_data/data_after_remove_dirty_data.csv')
 
 df = data.copy()
 
 df = df.drop(columns=['역명', '노선명'])
-
-# 행정구역 관련 컬럼을 하나의 컬럼으로 통합
-df['행정구역'] = df[['행정구역_경기남부', '행정구역_경기동부', '행정구역_경기북서부', '행정구역_경기중부', '행정구역_서울', '행정구역_인천']].idxmax(axis=1)
-
-# 행정구역 관련 컬럼 삭제
-df = df.drop(columns=['행정구역_경기남부', '행정구역_경기동부', '행정구역_경기북서부', '행정구역_경기중부', '행정구역_서울', '행정구역_인천'])
 
 # '사용일자'와 '행정구역'을 기준으로 평균 이용 승객 수 계산
 average_ridership = df.groupby(['사용일자', '행정구역'])['총이용승객수'].mean().reset_index()
@@ -111,6 +106,28 @@ for i, (name, scaled_data) in enumerate(scalers.items(), 1):
 plt.tight_layout()
 plt.show()
 """
+
+def one_hot_encoding(origin_df, attribute):
+    one_hot_encoder = OneHotEncoder(sparse_output=False)
+    encoded_columns = one_hot_encoder.fit_transform(origin_df[[attribute]])
+
+    # 인코딩된 열 이름 얻기
+    encoded_column_names = one_hot_encoder.get_feature_names_out([attribute])
+
+    # 인코딩된 열을 데이터프레임으로 변환
+    encoded_df = pd.DataFrame(encoded_columns, columns=encoded_column_names)
+
+    # 원래 데이터프레임과 인코딩된 열을 합치기
+    origin_df = pd.concat([origin_df, encoded_df], axis=1)
+
+    # 원래 열 삭제
+    origin_df.drop(attribute, axis=1, inplace=True)
+
+    return origin_df
+
+
+# One-Hot Encoding
+df = one_hot_encoding(df, "행정구역")
 
 df.to_csv('merged_data/data_after_scaling.csv')
 

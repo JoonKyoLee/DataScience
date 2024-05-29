@@ -12,29 +12,6 @@ df.rename(columns={'승차총승객수': '총이용승객수'}, inplace=True)
 df.drop(columns=['하차총승객수', '총승객수'], axis=1, inplace=True)
 
 
-def one_hot_encoding(origin_df, attribute):
-    one_hot_encoder = OneHotEncoder(sparse_output=False)
-    encoded_columns = one_hot_encoder.fit_transform(origin_df[[attribute]])
-
-    # 인코딩된 열 이름 얻기
-    encoded_column_names = one_hot_encoder.get_feature_names_out([attribute])
-
-    # 인코딩된 열을 데이터프레임으로 변환
-    encoded_df = pd.DataFrame(encoded_columns, columns=encoded_column_names)
-
-    # 원래 데이터프레임과 인코딩된 열을 합치기
-    origin_df = pd.concat([origin_df, encoded_df], axis=1)
-
-    # 원래 열 삭제
-    origin_df.drop(attribute, axis=1, inplace=True)
-
-    return origin_df
-
-
-# One-Hot Encoding
-df = one_hot_encoding(df, "행정구역")
-
-
 def binary_encoding(df, attribute):
     # 'O'는 1로, 'X'는 0으로 인코딩
     df[attribute] = df[attribute].map({'O': 1, 'X': 0})
