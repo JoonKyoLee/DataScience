@@ -57,5 +57,5 @@ station_info.loc[station_info['시/도'] == '경기', '행정구역'] = station_
 
 station_administrative_division = station_info[['역사명', '행정구역']]
 
-# csv 파일로 저장
+# excel 파일로 저장
 station_administrative_division.to_excel('modified_data/추출된_역정보.xlsx', index=False)
