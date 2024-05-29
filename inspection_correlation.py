@@ -74,6 +74,8 @@ correlation_matrix = correlation_matrix.fillna(0)
 # 상관관계 행렬 출력
 print(correlation_matrix)
 
+df.to_csv('merged_data/final_data.csv')
+
 
 # 상관관계 행렬 시각화
 plt.figure(figsize=(12, 10))
