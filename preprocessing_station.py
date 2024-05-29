@@ -61,5 +61,9 @@ station_administrative_division = station_administrative_division.drop_duplicate
 
 print(station_administrative_division)
 
-# csv 파일로 저장
+station_administrative_division = station_administrative_division.drop_duplicates(subset=['역사명'])
+
+print(station_administrative_division)
+
+# excel 파일로 저장
 station_administrative_division.to_excel('modified_data/추출된_역정보.xlsx', index=False)
