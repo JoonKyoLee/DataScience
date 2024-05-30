@@ -58,6 +58,19 @@ if __name__ == "__main__":
     file_path = "/merged_data/"  # 파일 경로 설정
     file_names = ["modified_merged_data_for_remove_outlier.csv"]  # 파일 이름 설정
     data_list = [pd.read_csv(file_path + file_name) for file_name in file_names]
+    
+    
+    # 사용일자를 datetime 형식으로 변환
+    data_list['사용일자'] = pd.to_datetime(data_list['사용일자'], format='%Y%m%d')
+
+    # 요일, 주말/평일, 월, 계절 변수 생성
+    data_list['요일'] = data_list['사용일자'].dt.dayofweek  # 0: 월요일, 6: 일요일
+    data_list['평일'] = data_list['요일'].apply(lambda x: 1 if x < 5 else 0)
+    data_list['주말'] = data_list['요일'].apply(lambda x: 1 if x >= 5  else 0)
+
+    data_list = data_list[data_list['평일'] == 0]    # 평일만 남김
+    
+    
 
     # 승차 총 승객수와 하차 총 승객수를 합한 총 승객수 열 생성
     for df in data_list:

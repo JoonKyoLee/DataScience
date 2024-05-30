@@ -4,6 +4,8 @@ from matplotlib import pyplot as plt
 from tabulate import tabulate
 
 data = pd.read_csv('merged_data/data_after_remove_dirtydata.csv')
+#modified_merged_data.csv
+#
 print(data)
 
 data_for_remove_outlier = data
