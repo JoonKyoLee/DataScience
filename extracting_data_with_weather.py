@@ -48,6 +48,4 @@ plt.title('Correlation Matrix', fontproperties=fontprop)
 
 plt.show()
 
-
-
-
+df.to_csv("merged_data/final_data_with_weather.csv")
