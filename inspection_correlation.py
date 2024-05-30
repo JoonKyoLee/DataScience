@@ -3,10 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
 from sklearn.cluster import KMeans
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.metrics import mean_squared_error
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.decomposition import PCA
+
 
 # 한글 폰트 설정 (예: 나눔고딕)
 font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
@@ -25,7 +23,7 @@ df['사용일자'] = pd.to_datetime(df['사용일자'], format='%Y%m%d')
 # 요일, 주말/평일, 월, 계절 변수 생성
 df['요일'] = df['사용일자'].dt.dayofweek  # 0: 월요일, 6: 일요일
 df['평일'] = df['요일'].apply(lambda x: 1 if x < 5 else 0)
-df['주말'] = df['요일'].apply(lambda x: 1 if x >= 5  else 0)
+df['주말'] = df['요일'].apply(lambda x: 1 if x >= 5 else 0)
 
 #df['월'] = df['사용일자'].dt.month
 #df['계절'] = df['월'].apply(lambda x: '봄' if 3 <= x <= 5 else ('여름' if 6 <= x <= 8 else ('가을' if 9 <= x <= 11 else '겨울')))
@@ -85,15 +83,14 @@ sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
 plt.title('Correlation Matrix', fontproperties=fontprop)
 
 plt.show()
-"""
 
+"""
 # 예제 데이터를 pandas DataFrame으로 로드 (가정)
 df_encoded = pd.read_csv('merged_data/data_after_scaling.csv')
 
-df_encoded = df_encoded.drop(columns=['노선명', '역명'])
 
 # 특성 변수(X) 설정
-X = df_encoded.drop(columns=['총이용승객수'])
+X = df_encoded.drop(columns=['평균이용승객수'])
 
 
 # K-Means 클러스터링 모델 초기화 및 학습
@@ -117,3 +114,26 @@ plt.show()
 # 클러스터링 결과 데이터프레임 확인
 print(df_encoded.head())
 """
+
+df.drop(columns=['사용일자'], inplace=True)
+
+# PCA 적용
+pca = PCA(n_components=2)  # 주성분의 개수를 2로 설정 (예시)
+principal_components = pca.fit_transform(df)
+
+# 결과를 데이터프레임으로 변환
+pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+
+# 주성분 데이터프레임에 원래의 '평균이용승객수' 컬럼 추가
+pca_df['평균이용승객수'] = df['평균이용승객수'].values
+
+# PCA 결과 시각화
+plt.figure(figsize=(10, 7))
+plt.scatter(pca_df['PC1'], pca_df['PC2'], c=pca_df['평균이용승객수'], cmap='viridis')
+plt.colorbar(label='평균이용승객수')
+plt.xlabel('Principal Component 1')
+plt.ylabel('Principal Component 2')
+plt.title('PCA of Average Passenger Usage')
+plt.show()
+
+print(pca_df)
