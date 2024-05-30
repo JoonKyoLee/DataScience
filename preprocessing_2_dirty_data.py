@@ -71,25 +71,20 @@ def appendDirtyList(column_name, value, list):
 def addDirtyData():
     
     df = pd.read_csv('merged_data/modified_merged_data.csv')
-    
-    ex_row = {'사용일자':[20230715], '노선명':['분당선'], '역명':['가천대'], '승차총승객수':[5256], '하차총승객수':[5427], 
-               '행정구역':['경기중부'], '미세먼지':['X'], '초미세먼지':['X'], '강수량':[0.1631578947368421], '적설':[0.0], 
-               '폭염여부':['X'], '한파특보':['X'], '황사관측':['X']}
     dirty = []
-    count = 0
     
     # Out of date range
     dirty = appendDirtyList('사용일자', 20220101, dirty)
         
     # 오류 처리 후 주석 해제 예정
-    # # Wrong line name
-    # dirty = appendDirtyList('노선명', '12호선', dirty)
+    # Wrong line name
+    dirty = appendDirtyList('노선명', '12호선', dirty)
         
-    # # Wrong station name
-    # dirty = appendDirtyList('역명', '가천대역', dirty)
+    # Wrong station name
+    dirty = appendDirtyList('역명', '가천대역', dirty)
         
-    # # Wrong district name
-    # dirty = appendDirtyList('행정구역', '부산', dirty)
+    # Wrong district name
+    dirty = appendDirtyList('행정구역', '부산', dirty)
         
     # Too few passengers
     dirty = appendDirtyList('승차총승객수', 2, dirty)
@@ -127,27 +122,21 @@ def removeDirtyData():
     df = df[df['사용일자'] <= 20240331]
     # valid date 처리는 일단 제외
     
-    # 오류 처리 후 주석 해제 예정
-    # count = 0
-    # for i, row in df.iterrows():
-    #     # Wrong line name
-    #     if row['노선명'] not in line:
-    #         df.drop(index=[i])
-    #         count += 1
-    #         continue
+    for i, row in df.iterrows():
+        # Wrong line name
+        if row['노선명'] not in line:
+            df.drop(index=i, inplace=True)
+            continue
         
-    #     # Wrong station name
-    #     if row['역명'] not in station:
-    #         df.drop(index=[i])
-    #         count += 1
-    #         continue
+        # Wrong station name
+        if row['역명'] not in station:
+            df.drop(index=i, inplace=True)
+            continue
         
-    #     # Wrong district name
-    #     if row['행정구역'] not in district:
-    #         df.drop(index=[i])
-    #         count += 1
-    #         continue
-    # print(count)    
+        # Wrong district name
+        if row['행정구역'] not in district:
+            df.drop(index=i, inplace=True)
+            continue
         
     # Too few passengers
     df = df[df['승차총승객수'] >= 20]
