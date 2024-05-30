@@ -56,15 +56,10 @@ robust_scaler = RobustScaler()
 
 df_robust = robust_scaler.fit_transform(df[columns_after_drop])
 df_robust = pd.DataFrame(df_robust, columns=columns_after_drop)
-print("여기")
 print(tabulate(df_robust.head(6), headers='keys', tablefmt='pretty'))
 
 # 스케일하지 않은 데이터와 결합
 df = pd.concat([df_not_scaled, df_robust], axis=1)
-print('8888888888')
-print(tabulate(df.head(10), headers='keys', tablefmt='pretty'))
-
-print(df)
 
 columns_2 = ['강수량', '적설']
 

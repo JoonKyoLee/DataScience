@@ -74,6 +74,8 @@ correlation_matrix = correlation_matrix.fillna(0)
 # 상관관계 행렬 출력
 print(correlation_matrix)
 
+df = df.drop(columns=['Unnamed: 0'])
+
 df.to_csv('merged_data/final_data.csv')
 
 
