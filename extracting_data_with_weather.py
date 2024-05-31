@@ -26,9 +26,10 @@ print(df)
 
 
 # 한글 폰트 설정 (예: 나눔고딕)
-font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
-fontprop = fm.FontProperties(fname=font_path, size=10)
-plt.rc('font', family=fontprop.get_name())
+# font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
+# fontprop = fm.FontProperties(fname=font_path, size=10)
+# plt.rc('font', family=fontprop.get_name())
+plt.rcParams['font.family'] = 'Malgun Gothic'
 plt.rcParams['axes.unicode_minus'] = False
 
 # 상관관계 행렬 계산
@@ -44,7 +45,8 @@ print(correlation_matrix)
 # 상관관계 행렬 시각화
 plt.figure(figsize=(12, 10))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
-plt.title('Correlation Matrix', fontproperties=fontprop)
+plt.title('Correlation Matrix')
+# plt.title('Correlation Matrix', fontproperties=fontprop)
 
 plt.show()
 
