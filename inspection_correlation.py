@@ -19,9 +19,6 @@ df = pd.read_csv('merged_data/data_after_scaling.csv')
 
 df_test = pd.read_csv('merged_data/data_after_scaling.csv')
 
-# 사용일자를 datetime 형식으로 변환
-df['사용일자'] = pd.to_datetime(df['사용일자'], format='%Y%m%d')
-
 # 요일, 주말/평일, 월, 계절 변수 생성
 df['요일'] = df['사용일자'].dt.dayofweek  # 0: 월요일, 6: 일요일
 df['평일'] = df['요일'].apply(lambda x: 1 if x < 5 else 0)
