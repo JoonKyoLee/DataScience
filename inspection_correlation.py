@@ -9,15 +9,19 @@ from sklearn.metrics import mean_squared_error
 from sklearn.preprocessing import OneHotEncoder
 
 # 한글 폰트 설정 (예: 나눔고딕)
-font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
-fontprop = fm.FontProperties(fname=font_path, size=10)
-plt.rc('font', family=fontprop.get_name())
+# font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
+# fontprop = fm.FontProperties(fname=font_path, size=10)
+# plt.rc('font', family=fontprop.get_name())
+plt.rcParams['font.family'] = 'Malgun Gothic'
 plt.rcParams['axes.unicode_minus'] = False
 
 # 데이터 로드
 df = pd.read_csv('merged_data/data_after_scaling.csv')
 
 df_test = pd.read_csv('merged_data/data_after_scaling.csv')
+
+# 사용일자를 datetime 형식으로 변환
+df['사용일자'] = pd.to_datetime(df['사용일자'], format='%Y-%m-%d')
 
 # 요일, 주말/평일, 월, 계절 변수 생성
 df['요일'] = df['사용일자'].dt.dayofweek  # 0: 월요일, 6: 일요일
@@ -79,7 +83,8 @@ df.to_csv('merged_data/final_data.csv')
 # 상관관계 행렬 시각화
 plt.figure(figsize=(12, 10))
 sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
-plt.title('Correlation Matrix', fontproperties=fontprop)
+plt.title('Correlation Matrix')
+# plt.title('Correlation Matrix', fontproperties=fontprop)
 
 plt.show()
 """
