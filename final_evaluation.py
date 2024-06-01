@@ -3,6 +3,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score, accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
+from sklearn.metrics import roc_curve, auc, precision_recall_curve
+from sklearn.metrics import RocCurveDisplay, PrecisionRecallDisplay
+import matplotlib.pyplot as plt
 import numpy as np
 
 #CSV 파일을 읽어와 DataFrame으로 반환하는 함수
@@ -56,6 +59,47 @@ def evaluate_classification_model(model, X_test, y_test):
     class_report = classification_report(y_test, y_pred)
     return accuracy, precision, recall, f1, conf_matrix, class_report
 
+# ROC Curve 시각화 함수
+def visualize_roc_curve(clf_model, X_test_clf_scaled, y_test_clf):
+    fpr, tpr, _ = roc_curve(y_test_clf, clf_model.predict_proba(X_test_clf_scaled)[:,1])
+    roc_display = RocCurveDisplay(fpr=fpr, tpr=tpr).plot()
+    plt.title('ROC Curve')
+    plt.show()
+
+#분류 결과의 ROC 및 Precision-Recall 곡선을 그리는 함수
+def plot_classification_curves(clf_model, X_test_clf_scaled, y_test_clf):
+    
+    y_score = clf_model.predict_proba(X_test_clf_scaled)[:, 1]
+    
+    fpr, tpr, _ = roc_curve(y_test_clf, y_score)
+    roc_auc = auc(fpr, tpr)
+
+    precision, recall, _ = precision_recall_curve(y_test_clf, y_score)
+
+    plt.figure(figsize=(10, 5))
+
+    # ROC Curve
+    plt.subplot(1, 2, 1)
+    plt.plot(fpr, tpr, color='blue', lw=2, label='ROC curve (area = %0.2f)' % roc_auc)
+    plt.plot([0, 1], [0, 1], color='black', lw=2, linestyle='--')
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel('False Positive Rate')
+    plt.ylabel('True Positive Rate')
+    plt.title('Receiver Operating Characteristic (ROC) Curve')
+    plt.legend(loc="lower right")
+
+    # Precision-Recall Curve
+    plt.subplot(1, 2, 2)
+    plt.plot(recall, precision, color='blue', lw=2, label='Precision-Recall curve')
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.title('Precision-Recall Curve')
+    plt.legend(loc="lower left")
+
+    plt.tight_layout()
+    plt.show()
+
 # 데이터 로드
 file_path = '/merged_data/final_data.csv'
 data = load_data(file_path)
@@ -91,3 +135,7 @@ print(f"Recall: {recall}")
 print(f"F1 Score: {f1}")
 print(f"Confusion Matrix:\n{conf_matrix}")
 print(f"Classification Report:\n{class_report}")
+
+# 분류 결과의 ROC 및 Precision-Recall 곡선 시각화
+plot_classification_curves(classification_model, X_test_clf, y_test_clf)
+
