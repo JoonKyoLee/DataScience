@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import matplotlib.font_manager as fm
 from matplotlib import pyplot as plt
@@ -6,8 +5,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import LogisticRegression, LinearRegression
-from sklearn.svm import SVC
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, mean_squared_error, r2_score
 import seaborn as sns
@@ -24,14 +21,8 @@ df.drop(columns=['Unnamed: 0', '사용일자'], inplace=True)
 
 def select_model(task, model_type):
     if task == 'classification':
-        if model_type == 'logistic_regression':
-            return LogisticRegression(random_state=42)
-        elif model_type == 'random_forest':
+        if model_type == 'random_forest':
             return RandomForestClassifier(random_state=42)
-        elif model_type == 'svm':
-            return SVC(random_state=42)
-        elif model_type == 'knn':
-            return KNeighborsClassifier()
         else:
             raise ValueError("Model Type is wrong.")
     elif task == 'regression':
@@ -124,10 +115,8 @@ def main(task, model_type):
     if isinstance(model, (RandomForestClassifier, RandomForestRegressor, DecisionTreeRegressor, GradientBoostingRegressor)):
         plot_feature_importance(model, features, task)
 
+
 main('classification', 'random_forest')
-main('classification', 'logistic_regression')
-main('classification', 'svm')
-main('classification', 'knn')
 main('regression', 'random_forest')
 main('regression', 'linear_regression')
 main('regression', 'decision_tree')
