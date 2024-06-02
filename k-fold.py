@@ -8,7 +8,7 @@ from sklearn.preprocessing import StandardScaler
 from matplotlib import pyplot as plt
 
 # Load and preprocess data
-df = pd.read_csv('merged_data/final_data.csv')
+df = pd.read_csv('merged_data/final_data_with_weather.csv')
 df.drop(columns=['Unnamed: 0', '사용일자'], inplace=True)
 
 

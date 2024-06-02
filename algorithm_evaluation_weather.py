@@ -5,8 +5,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor, GradientBoostingRegressor
 from sklearn.linear_model import LogisticRegression, LinearRegression
+from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, mean_squared_error, r2_score
+from sklearn.metrics import accuracy_score, confusion_matrix, classification_report, mean_squared_error, r2_score, mean_absolute_error
 import seaborn as sns
 
 # 한글 폰트 설정 (예: 나눔고딕)
@@ -23,6 +24,10 @@ def select_model(task, model_type):
     if task == 'classification':
         if model_type == 'random_forest':
             return RandomForestClassifier(random_state=42)
+        elif model_type == 'logistic_regression':
+            return LogisticRegression(random_state=42)
+        elif model_type == 'svm':
+            return SVC(random_state=42)
         else:
             raise ValueError("Model Type is wrong.")
     elif task == 'regression':
@@ -44,7 +49,8 @@ def evaluate_model(model, X_train, X_test, y_train, y_test, task, model_name):
     y_pred = model.predict(X_test)
 
     if task == 'classification':
-        print(f"Accuracy: {accuracy_score(y_test, y_pred)}")
+        accuracy = accuracy_score(y_test, y_pred)
+        print(f"Accuracy: {accuracy}")
         print(f"Confusion Matrix:\n{confusion_matrix(y_test, y_pred)}")
         print(f"Classification Report:\n{classification_report(y_test, y_pred)}")
 
@@ -55,8 +61,14 @@ def evaluate_model(model, X_train, X_test, y_train, y_test, task, model_name):
         plt.ylabel("Actual")
         plt.show()
     elif task == 'regression':
-        print(f"Mean Squared Error: {mean_squared_error(y_test, y_pred)}")
-        print(f"R^2 Score: {r2_score(y_test, y_pred)}")
+        mse = mean_squared_error(y_test, y_pred)
+        rmse = mean_squared_error(y_test, y_pred, squared=False)
+        r2 = r2_score(y_test, y_pred)
+        mae = mean_absolute_error(y_test, y_pred)
+        print(f"Mean Squared Error: {mse}")
+        print(f"Root Mean Squared Error: {rmse}")
+        print(f"R^2 Score: {r2}")
+        print(f"Mean Absolute Error: {mae}")
 
         plt.figure(figsize=(10, 7))
         plt.scatter(y_test, y_pred, alpha=0.3)
@@ -117,6 +129,8 @@ def main(task, model_type):
 
 
 main('classification', 'random_forest')
+main('classification', 'logistic_regression')
+main('classification', 'svm')
 main('regression', 'random_forest')
 main('regression', 'linear_regression')
 main('regression', 'decision_tree')
