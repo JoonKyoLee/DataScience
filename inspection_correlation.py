@@ -2,16 +2,16 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import matplotlib.font_manager as fm
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, DBSCAN
 from sklearn.decomposition import PCA
 
 
 # 한글 폰트 설정 (예: 나눔고딕)
-# font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
-# fontprop = fm.FontProperties(fname=font_path, size=10)
-# plt.rc('font', family=fontprop.get_name())
-plt.rcParams['font.family'] = 'Malgun Gothic'
-plt.rcParams['axes.unicode_minus'] = False
+font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
+fontprop = fm.FontProperties(fname=font_path, size=10)
+plt.rc('font', family=fontprop.get_name())
+#plt.rcParams['font.family'] = 'Malgun Gothic'
+#plt.rcParams['axes.unicode_minus'] = False
 
 # 데이터 로드
 df = pd.read_csv('merged_data/data_after_scaling.csv')

@@ -26,11 +26,11 @@ print(df)
 
 
 # 한글 폰트 설정 (예: 나눔고딕)
-# font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
-# fontprop = fm.FontProperties(fname=font_path, size=10)
-# plt.rc('font', family=fontprop.get_name())
-plt.rcParams['font.family'] = 'Malgun Gothic'
-plt.rcParams['axes.unicode_minus'] = False
+font_path = '../Library/Fonts/KoPubWorld Dotum Medium.ttf'
+fontprop = fm.FontProperties(fname=font_path, size=10)
+plt.rc('font', family=fontprop.get_name())
+#plt.rcParams['font.family'] = 'Malgun Gothic'
+#plt.rcParams['axes.unicode_minus'] = False
 
 # 상관관계 행렬 계산
 correlation_matrix = df.corr()

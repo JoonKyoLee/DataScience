@@ -24,6 +24,9 @@ df = pd.merge(df, average_ridership, on=['사용일자', '행정구역'], how='l
 df = df.drop(columns=['총이용승객수'])
 df = df.drop_duplicates(subset=['사용일자', '행정구역'])
 
+print(df)
+df.to_csv('merged_data/data_after_group_data.csv')
+
 df[['평균이용승객수']] = df[['평균이용승객수']].applymap(lambda x: np.log1p(x))
 print(tabulate(df[df['사용일자'] == 20230401], headers='keys', tablefmt='pretty'))
 print(df)
@@ -34,7 +37,7 @@ print(df.isna().sum())
 
 
 # 인덱스 재설정
-df = df.reset_index(drop=True)  # 이 부분 추가
+df = df.reset_index(drop=True)
 
 # 데이터 프레임에 있는 모든 column
 columns = df.columns.values.tolist()
